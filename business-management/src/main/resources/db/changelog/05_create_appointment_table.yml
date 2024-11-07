@@ -1,0 +1,90 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: user
+      changes:
+        - createTable:
+            tableName: appointment
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: owner_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: customer_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: employee_id
+                  type: BIGINT  # Randevuyu alacak çalışanın kimliği
+                  constraints:
+                    nullable: true  # Çalışan isteğe bağlı olabilir
+              - column:
+                  name: business_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: appointment_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: service_name
+                  type: VARCHAR(100)  # Yapılacak işlem adı
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: DECIMAL(10, 2)  # İşlem fiyatı (örneğin: 99999.99)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)  # Randevu durumu
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+        - addForeignKeyConstraint:
+            baseTableName: appointment
+            baseColumnNames: owner_id
+            constraintName: fk_appointment_owner
+            referencedTableName: owner
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseTableName: appointment
+            baseColumnNames: customer_id
+            constraintName: fk_appointment_customer
+            referencedTableName: customer  # Müşteri tablosu daha önce oluşturulmalı
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseTableName: appointment
+            baseColumnNames: employee_id
+            constraintName: fk_appointment_employee
+            referencedTableName: employee  # Çalışan tablosu daha önce oluşturulmalı
+            referencedColumnNames: id
+            onDelete: SET NULL
+        - addForeignKeyConstraint:
+            baseTableName: appointment
+            baseColumnNames: business_id
+            constraintName: fk_appointment_business
+            referencedTableName: business
+            referencedColumnNames: id
+            onDelete: CASCADE

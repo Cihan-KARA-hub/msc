@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 11
+      author: cihan
+      changes:
+        - modifyDataType:
+            tableName: business
+            columnName: latitude
+            newDataType: VARCHAR(255)
+        - modifyDataType:
+            tableName: business
+            columnName: longitude
+            newDataType: VARCHAR(255)

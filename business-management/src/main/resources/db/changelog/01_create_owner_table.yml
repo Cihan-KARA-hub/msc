@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: user
+      changes:
+        - createTable:
+            tableName: owner
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: first_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: phone_number
+                  type: VARCHAR(15)
+              - column:
+                  name: master_certificate_no
+                  type: VARCHAR(100)  # Master certificate file path -> ustalık belgesi
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: tc_no
+                  type: VARCHAR(11)
+                  constraints:
+                    nullable: false # tc kimlik numarasını da aldık
+                    unique: true
+              - column:
+                  name: tax_certificate_no
+                  type: VARCHAR(100)  # Tax certificate file -> vergi levhası
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: premium_type
+                  type: VARCHAR(10)
+              - column:
+                  name: profile_picture
+                  type: BYTEA
+              - column:
+                  name: version
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP

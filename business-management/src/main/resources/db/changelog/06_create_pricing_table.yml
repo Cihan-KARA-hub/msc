@@ -1,0 +1,78 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: user
+      changes:
+        - createTable:
+            tableName: pricing
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+
+              - column:
+                  name: service_name
+                  type: VARCHAR(100)  # İşlem adı
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: service_duration_minutes
+                  type: INT  # İşlem süresi (dakika cinsinden)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: service_price
+                  type: DECIMAL(10, 2)  # İşlem fiyatı
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: description
+                  type: TEXT  # İşlem açıklaması (isteğe bağlı)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: currency
+                  type: VARCHAR(3)  # Para birimi (örn: TRY, USD, EUR)
+                  defaultValue: 'TRY'
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_active
+                  type: BOOLEAN  # İşlem aktif mi? (Arşivleme için)
+                  defaultValueBoolean: true
+
+              - column:
+                  name: version
+                  type: INT  # Optimistic locking için
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: business_id
+                  type: BIGINT  # Business ID
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+        - addForeignKeyConstraint:
+            baseTableName: pricing
+            baseColumnNames: business_id
+            constraintName: fk_pricing_business
+            referencedTableName: business
+            referencedColumnNames: id

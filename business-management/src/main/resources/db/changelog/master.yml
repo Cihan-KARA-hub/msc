@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/01_create_owner_table.yml
+  - include:
+      file: db/changelog/02_create_business_table.yml
+  - include:
+      file: db/changelog/03_create_employee_table.yml
+  - include:
+      file: db/changelog/04_create_customer_table.yml
+  - include:
+      file: db/changelog/05_create_appointment_table.yml
+  - include:
+      file: db/changelog/06_create_pricing_table.yml
+  - include:
+      file: db/changelog/07_create_review_table.yml
+  - include:
+      file: db/changelog/08_create_advertisement_table.yml
+  - include:
+      file: db/changelog/09_create_business_premium_table.yml
+  - include:
+      file: db/changelog/10_create_calendar_table.yml
+  - include:
+      file: db/changelog/changelog_update/lat_log_update.yml

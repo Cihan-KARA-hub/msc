@@ -1,0 +1,73 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: user
+      changes:
+        - createTable:
+            tableName: calendar
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+
+              - column:
+                  name: business_id
+                  type: BIGINT  # Takvim hangi salona ait
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: employee_id
+                  type: BIGINT  # Çalışan kimliği
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: date
+                  type: DATE  # Takvim günü
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: status
+                  type: VARCHAR(20)  # Durum bilgisi
+                  constraints:
+                    nullable: false  # Durum alanı gerekli
+
+              - column:
+                  name: start_time
+                  type: TIME  # Periyot başlangıç saati
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: end_time
+                  type: TIME  # Periyot bitiş saati
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: available
+                  type: BOOLEAN  # Periyot uygun mu?
+                  defaultValueBoolean: true
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+        - addForeignKeyConstraint:
+            baseTableName: calendar
+            baseColumnNames: business_id
+            constraintName: fk_calendar_business
+            referencedTableName: business
+            referencedColumnNames: id
+            onDelete: CASCADE  # Business silinirse takvim kayıtları da silinsin

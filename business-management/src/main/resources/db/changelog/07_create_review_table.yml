@@ -1,0 +1,80 @@
+databaseChangeLog:
+  - changeSet:
+      id: 7
+      author: user
+      changes:
+        - createTable:
+            tableName: review
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+
+              - column:
+                  name: business_id
+                  type: BIGINT  # Hangi işletme/salon değerlendiriliyor
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: customer_id
+                  type: BIGINT  # Yorumu yapan kullanıcı
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: rating
+                  type: INT  # Yıldızlama puanı (1-5 arasında)
+                  constraints:
+                    nullable: false
+                    check: "rating >= 1 AND rating <= 5"
+
+              - column:
+                  name: comment
+                  type: TEXT  # Kullanıcının yorumu
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: review_date
+                  type: TIMESTAMP  # Yorumun yapıldığı tarih
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+              - column:
+                  name: is_visible
+                  type: BOOLEAN  # Yorumun görünür olup olmadığı
+                  defaultValueBoolean: true
+
+              - column:
+                  name: version
+                  type: INT  # Versiyon kontrolü
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+        - addForeignKeyConstraint:
+            baseTableName: review
+            baseColumnNames: business_id
+            constraintName: fk_review_business
+            referencedTableName: business
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: review
+            baseColumnNames: customer_id
+            constraintName: fk_review_customer
+            referencedTableName: customer
+            referencedColumnNames: id
+            onDelete: CASCADE

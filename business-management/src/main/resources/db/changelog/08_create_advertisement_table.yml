@@ -1,0 +1,79 @@
+databaseChangeLog:
+  - changeSet:
+      id: 8
+      author: user
+      changes:
+        - createTable:
+            tableName: advertisement
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+
+              - column:
+                  name: owner_id
+                  type: BIGINT  # Reklam veren işletme sahibi
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: title
+                  type: VARCHAR(100)  # Reklam başlığı
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: description
+                  type: TEXT  # Reklam açıklaması veya metni
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: start_date
+                  type: TIMESTAMP  # Reklamın başlangıç tarihi
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: end_date
+                  type: TIMESTAMP  # Reklamın bitiş tarihi
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: price
+                  type: DECIMAL(10, 2)  # Reklam ücreti
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_active
+                  type: BOOLEAN  # Reklam aktif mi?
+                  defaultValueBoolean: true
+
+              - column:
+                  name: version
+                  type: INT  # Optimistic locking için
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+        - addForeignKeyConstraint:
+            baseTableName: advertisement
+            baseColumnNames: owner_id
+            constraintName: fk_advertisement_owner
+            referencedTableName: owner
+            referencedColumnNames: id
+            onDelete: CASCADE
